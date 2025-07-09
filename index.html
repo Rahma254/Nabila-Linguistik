@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabila Ahmad Studio Psykolinguistik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #9b59b6;
+            --secondary-color: #3498db;
+            --accent-color: #f1c40f;
+            --text-color: #ecf0f1;
+            --bg-color-start: #0f0c29;
+            --bg-color-mid: #302b63;
+            --bg-color-end: #24243e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background: linear-gradient(-45deg, var(--bg-color-start), var(--bg-color-mid), var(--secondary-color), var(--primary-color));
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(241, 196, 15, 0.7);
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .generator-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.7rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        textarea, select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--secondary-color);
+            border-radius: 10px;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        
+        textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 10px var(--secondary-color);
+            border-color: var(--accent-color);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #generate-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            flex-grow: 1;
+        }
+
+        #generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(155, 89, 182, 0.5);
+            filter: brightness(1.2);
+        }
+
+        #output-container {
+            margin-top: 2rem;
+            display: none; /* Initially hidden */
+            animation: fadeIn 1s;
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--accent-color);
+            position: relative;
+        }
+
+        .result-box h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .result-content {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            min-height: 50px;
+        }
+        
+        .literary-device {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--primary-color);
+            padding: 0.3rem 0.7rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.2s;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1rem;
+            background-color: var(--text-color);
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .generator-card { padding: 1.5rem; }
+            .controls { flex-direction: column; }
+            #generate-btn { width: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Nabila Ahmad Studio Psykolinguistik</h1>
+            <p>Melahirkan Kata, Menenun Makna, Menghidupkan Cerita</p>
+        </header>
+
+        <main class="generator-card">
+            <div class="input-group">
+                <label for="user-input">Masukkan Baris Pemicu Anda:</label>
+                <textarea id="user-input" rows="3" placeholder="Contoh: Malam ini terasa begitu sepi..."></textarea>
+            </div>
+
+            <div class="controls">
+                <select id="content-type">
+                    <option value="novel">Alur Cerita Novel</option>
+                    <option value="lirik">Naskah Lirik Lagu</option>
+                </select>
+                <button id="generate-btn">GENERATE KEAJAIBAN</button>
+            </div>
+            
+            <div id="output-container">
+                <div class="result-box">
+                    <h3>Dialog</h3>
+                    <p id="dialog-output" class="result-content"></p>
+                    <span id="dialog-device" class="literary-device"></span>
+                </div>
+                <div class="result-box">
+                    <h3>Narasi</h3>
+                    <p id="narasi-output" class="result-content"></p>
+                    <span id="narasi-device" class="literary-device"></span>
+                </div>
+                <div class="result-box">
+                    <h3>Prosa</h3>
+                    <p id="prosa-output" class="result-content"></p>
+                    <span id="prosa-device" class="literary-device"></span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    // --- DATABASE SASTRA ---
+    // Setiap entri memiliki:
+    // text: Kalimat yang dihasilkan
+    // device: Kaidah sastra yang digunakan
+    const dataBank = {
+        // Data untuk Alur Cerita Novel
+        novel: {
+            dialog: {
+                a: [
+                    { text: '"Biarlah semua jadi rahasia, agar tak ada lagi air mata," bisiknya dalam fatamorgana.', device: 'Simbolisme' },
+                    { text: '"Kenapa kita tak pernah bisa bersama? Langit seolah tak merestui kita," tanyanya hampa.', device: 'Personifikasi' },
+                    { text: '"Aku melihat semesta dalam tatapanmu yang fana," ujarnya, penuh makna.', device: 'Hiperbola' }
+                ],
+                i: [
+                    { text: '"Pergilah, cari kebahagiaanmu sendiri, meski hatiku remuk di sini," ucapnya lirih sekali.', device: 'Metafora' },
+                    { text: '"Ini bukan salahmu, ini takdir yang melukis perih di hati," katanya sambil menahan diri.', device: 'Imaji' },
+                    { text: '"Janji yang kau ingkari, kini menjadi duri paling tajam dalam memori," tangisnya pecah di pipi.', device: 'Analogi' }
+                ],
+                u: [
+                    { text: '"Rinduku padamu adalah candu, yang takkan pernah lekang oleh waktu," keluhnya sendu.', device: 'Metafora' },
+                    { text: '"Mengapa kau terus berlari ke masa lalu? Tidakkah kau lihat masa depan menunggumu?" tanyanya ragu.', device: 'Retorika' },
+                    { text: '"Cintaku padamu seluas samudra biru, tak bertepi dan selalu baru," jawabnya tulus.', device: 'Simile' }
+                ],
+                e: [
+                    { text: '"Jangan menangis di depanku, senyummu adalah semestaku yang paling oke," pintanya memelas.', device: 'Hiperbola' },
+                    { text: '"Kita hanya dua jiwa yang tersesat di labirin bernama memori," jelasnya dengan letih.', device: 'Metafora' },
+                    { text: '"Semua akan baik-baik saja, percayalah pada skenario semesta," hiburnya lembut.', device: 'Personifikasi' }
+                ],
+                o: [
+                    { text: '"Kau adalah paradox yang paling kucintai, kosong namun begitu berisi," akuinya dengan pilu.', device: 'Oksimoron' },
+                    { text: '"Biarkan aku tenggelam dalam egoku, agar tak perlu lagi merasakan sakit yang kau goreskan itu," katanya bodoh.', device: 'Ironi' },
+                    { text: '"Ini prolog cerita kita, atau sudah masuk epilog?" tanyanya tanpa ekspresi.', device: 'Simbolisme' }
+                ]
+            },
+            narasi: {
+                a: [
+                    { text: 'Angin malam membawa aroma petrichor yang basah, membangkitkan kenangan yang seharusnya sudah sirna.', device: 'Imaji Olfaktori' },
+                    { text: 'Di bawah lampu jalan yang temaram, bayangannya memanjang, seolah sebuah elegi tanpa kata.', device: 'Simbolisme' },
+                    { text: 'Hening menjadi satu-satunya bahasa, ketika dua hati tak lagi mampu bicara.', device: 'Paradoks' }
+                ],
+                i: [
+                    { text: 'Rintik hujan di jendela seolah ikut menangisi, setiap keping memori yang tak mau pergi.', device: 'Personifikasi' },
+                    { text: 'Ia berdiri di tepi jurang takdir, menimbang antara melompat pergi atau kembali.', device: 'Metafora' },
+                    { text: 'Waktu terasa berhenti, membekukan setiap detik yang penuh ironi.', device: 'Hiperbola' }
+                ],
+                u: [
+                    { text: 'Senja di ufuk barat melukiskan rindu, dengan warna jingga yang sendu.', device: 'Imaji Visual' },
+                    { text: 'Langkahnya gontai menyusuri jalan setapak yang bisu, berharap menemukan jejak masa lalu.', device: 'Aliterasi' },
+                    { text: 'Hatinya adalah sebuah buku, dengan halaman terakhir yang sengaja disobek pilu.', device: 'Analogi' }
+                ],
+                e: [
+                    { text: 'Gemerlap kota di kejauhan terlihat seperti permata yang berderet, menertawakan sepinya yang konkret.', device: 'Simile' },
+                    { text: 'Ia memeluk dirinya sendiri, mencari kehangatan yang telah direnggut pergi oleh tragedi.', device: 'Klimaks Emosi' },
+                    { text: 'Setiap helaan napasnya adalah permohonan yang tak terucap, sebuah doa untuk melupakan sekejap.', device: 'Simbolisme' }
+                ],
+                o: [
+                    { text: 'Koridor panjang itu terasa seperti lorong waktu, bergema oleh tawa dan tangis yang berpadu.', device: 'Metafora' },
+                    { text: 'Hanya ada gema kosong, menjawab setiap pertanyaan tentang mengapa semua ini bohong.', device: 'Onomatope' },
+                    { text: 'Foto-foto di dinding menatapnya dengan tatapan kosong, menjadi saksi bisu sebuah skenario yang melompong.', device: 'Personifikasi' }
+                ]
+            },
+            prosa: {
+                a: [
+                    { text: 'Ada semesta yang runtuh tanpa suara, di dalam jiwa yang pura-pura tertawa.', device: 'Antitesis' },
+                    { text: 'Dan di antara milyaran manusia, hatinya memilih satu nama untuk menjadi luka selamanya.', device: 'Ironi' },
+                    { text: 'Cahaya rembulan menyelinap masuk, menari di lantai sebagai saksi bisu sebuah rasa yang terperangkap.', device: 'Personifikasi' }
+                ],
+                i: [
+                    { text: 'Luka ini, adalah puisi. Tergores oleh tinta takdir, dibacakan oleh sepi.', device: 'Metafora' },
+                    { text: 'Seperti ombak yang tak pernah lelah mencumbui bibir pantai, begitulah rindu ini mengikis hati.', device: 'Simile' },
+                    { text: 'Di persimpangan dilema ia berdiri, antara jalan kenangan dan jalan untuk menyembuhkan diri.', device: 'Simbolisme' }
+                ],
+                u: [
+                    { text: 'Sebuah keheningan yang begitu riuh, memekakkan telinga batin yang rapuh.', device: 'Oksimoron' },
+                    { text: 'Kau adalah sajak yang tak pernah rampung, koma di setiap akhir kalimatku yang bingung.', device: 'Analogi' },
+                    { text: 'Bayang-bayang menari di dinding kamarnya yang murung, menyanyikan lagu tentang harapan yang terkungkung.', device: 'Personifikasi' }
+                ],
+                e: [
+                    { text: 'Waktu adalah pelukis kejam, yang mewarnai rambutnya dengan perak kesedihan.', device: 'Metafora' },
+                    { text: 'Kenangan menjadi penjara transparan, indah untuk dilihat namun mustahil untuk dilepaskan.', device: 'Paradoks' },
+                    { text: 'Gema tawamu masih tersisa di sudut kafe, sebuah melodi usang yang menolak untuk pergi.', device: 'Imaji Auditori' }
+                ],
+                o: [
+                    { text: 'Jiwa yang kosong adalah panggung pertunjukan, di mana kesedihan menjadi aktor utamanya yang congkak.', device: 'Alegori' },
+                    { text: 'Ia adalah gema dari kata-kata yang tak pernah terucap, sebuah protofolio dari harapan yang terperosok.', device: 'Metafora' },
+                    { text: 'Dalam labirin pikirannya yang bobrok, ia mencari pintu keluar dari episode yang menusuk.', device: 'Aliterasi' }
+                ]
+            }
+        },
+        // Data untuk Lirik Lagu. Dibuat lebih ringkas.
+        lirik: {
+             a: [
+                { text: 'Di bawah langit Jakarta, kuukir namamu dalam doa...', device: 'Setting' },
+                { text: 'Kau fatamorgana, indah namun takkan pernah ada...', device: 'Metafora' },
+                { text: 'Biar ku simpan saja, rasa yang tak pernah kau anggap ada...', device: 'Ironi' }
+            ],
+            i: [
+                { text: 'Hujan di bulan ini, saksi bisu kau ingkar janji...', device: 'Personifikasi' },
+                { text: 'Hatiku kau panah lagi, dengan tatap mata penuh misteri...', device: 'Metafora' },
+                { text: 'Cukup sampai di sini, kisah kita yang penuh ilusi...', device: 'Klimaks' }
+            ],
+            u: [
+                { text: 'Rinduku menggebu, menembus batas ruang dan waktu...', device: 'Hiperbola' },
+                { text: 'Senyummu candu bagiku, membuatku lupa siapa diriku...', device: 'Metafora' },
+                { text: 'Semua hanya bayang semu, yang kurajut dalam angan-anganku...', device: 'Simbolisme' }
+            ],
+            e: [
+                { text: 'Mentari tersenyum keemasan sore ini, sehangat pelukmu yang pernah singgah di sini...', device: 'Personifikasi' },
+                { text: 'Jangan kau pergi lagi, kasih, duniaku sepi tanpamu di sisi...', device: 'Apostrof' },
+                { text: 'Kita hanyalah dua rel kereta, berjalan sejajar tapi takkan pernah bersama...', device: 'Simile' }
+            ],
+            o: [
+                { text: 'Logikaku membeku, saat kau ucap kata-kata sendu itu...', device: 'Metafora' },
+                { text: 'Kau adalah tokoh, dalam drama hidupku yang paling rusuh...', device: 'Alegori' },
+                { text: 'Genggam tanganku dan jangan ragu, kita hadapi dunia yang semu...', device: 'Ajakan' }
+            ]
+        }
+    };
+
+    // --- LOGIKA GENERATOR ---
+
+    const userInput = document.getElementById('user-input');
+    const contentTypeSelect = document.getElementById('content-type');
+    const generateBtn = document.getElementById('generate-btn');
+    const outputContainer = document.getElementById('output-container');
+
+    const dialogOutput = document.getElementById('dialog-output');
+    const narasiOutput = document.getElementById('narasi-output');
+    const prosaOutput = document.getElementById('prosa-output');
+
+    const dialogDevice = document.getElementById('dialog-device');
+    const narasiDevice = document.getElementById('narasi-device');
+    const prosaDevice = document.getElementById('prosa-device');
+
+    // Fungsi untuk mendapatkan vokal terakhir dari sebuah string
+    function getLastVowel(str) {
+        const vowels = 'aiueo';
+        const cleanedStr = str.toLowerCase().replace(/[^a-z]/g, '');
+        for (let i = cleanedStr.length - 1; i >= 0; i--) {
+            if (vowels.includes(cleanedStr[i])) {
+                return cleanedStr[i];
+            }
+        }
+        return 'a'; // Default jika tidak ada vokal
+    }
+
+    // Fungsi untuk mendapatkan item acak dari array
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+    
+    // Fungsi untuk efek mengetik
+    function typeWriter(element, text, deviceElement, deviceText, callback) {
+        element.innerHTML = '';
+        deviceElement.style.opacity = '0';
+        deviceElement.textContent = deviceText;
+        
+        let i = 0;
+        const speed = 30; // Kecepatan ketik dalam milidetik
+
+        const typing = setInterval(() => {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                if (i === 1) { // Add cursor on first char
+                    const cursor = document.createElement('span');
+                    cursor.className = 'typing-cursor';
+                    element.appendChild(cursor);
+                } else {
+                   element.querySelector('.typing-cursor').style.display = 'inline-block';
+                }
+            } else {
+                clearInterval(typing);
+                if(element.querySelector('.typing-cursor')) {
+                    element.querySelector('.typing-cursor').style.display = 'none';
+                }
+                deviceElement.style.opacity = '1';
+                if (callback) callback();
+            }
+        }, speed);
+    }
+
+
+    generateBtn.addEventListener('click', () => {
+        const text = userInput.value;
+        if (text.trim() === '') {
+            alert('Mohon masukkan baris pemicu terlebih dahulu.');
+            return;
+        }
+
+        outputContainer.style.display = 'block';
+
+        const vowel = getLastVowel(text);
+        const contentType = contentTypeSelect.value;
+        
+        let dialogData, narasiData, prosaData;
+
+        if (contentType === 'novel') {
+            dialogData = getRandomItem(dataBank.novel.dialog[vowel]);
+            narasiData = getRandomItem(dataBank.novel.narasi[vowel]);
+            prosaData = getRandomItem(dataBank.novel.prosa[vowel]);
+        } else { // lirik
+            // Untuk lirik, kita akan ambil dari bank data lirik yang sama untuk ketiga kategori
+            // agar tetap memenuhi format 3 bagian
+            dialogData = getRandomItem(dataBank.lirik[vowel]);
+            narasiData = getRandomItem(dataBank.lirik[vowel]);
+            prosaData = getRandomItem(dataBank.lirik[vowel]);
+        }
+        
+        // Menjalankan animasi ketik secara berurutan
+        typeWriter(dialogOutput, dialogData.text, dialogDevice, dialogData.device, () => {
+            typeWriter(narasiOutput, narasiData.text, narasiDevice, narasiData.device, () => {
+                typeWriter(prosaOutput, prosaData.text, prosaDevice, prosaData.device);
+            });
+        });
+    });
+    </script>
+</body>
+</html>
